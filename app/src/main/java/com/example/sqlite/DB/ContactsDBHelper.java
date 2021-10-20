@@ -2,6 +2,7 @@ package com.example.sqlite.DB;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -11,6 +12,8 @@ import androidx.annotation.Nullable;
 
 import com.example.sqlite.DB.ContactsContract.*;
 import com.example.sqlite.Model.Contact;
+
+import java.util.ArrayList;
 
 public class ContactsDBHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
@@ -48,9 +51,20 @@ public class ContactsDBHelper extends SQLiteOpenHelper {
     }
 
     public void showContact(SQLiteDatabase db) {
+        ArrayList<String> contacts = new ArrayList();
+
         if (db.isOpen()){
-            String sql = "select * from " + ContactsEntry.TABLE_NAME;
-            db.execSQL(sql);
+            String sql = "select " + ContactsEntry.COLUMN_NAME_TITLE + " from " + ContactsEntry.TABLE_NAME;
+            Cursor cursor = db.rawQuery(sql, null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    Contact contact = new Contact();
+                    contact.setNom(cursor.getString(cursor.getColumnIndex("name")));
+                    contacts.add(contact);
+                } while (cursor.moveToNext());
+            }
+
         }else{
             Log.i("sql","Database is closed");
         }

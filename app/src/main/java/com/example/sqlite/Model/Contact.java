@@ -2,7 +2,7 @@ package com.example.sqlite.Model;
 
 public class Contact {
 
-    String nom;
+    public String nom;
 
     public Contact(String nom) {
         this.nom = nom;

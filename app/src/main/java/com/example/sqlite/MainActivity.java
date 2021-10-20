@@ -25,9 +25,9 @@ public class MainActivity extends AppCompatActivity {
         dbHelper = new ContactsDBHelper(getApplicationContext());
         db = dbHelper.getWritableDatabase();
 
-        final Button btnAfegir = findViewById(R.id.btnAfegir);
-        btnAfegir.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+        final Button btnAdd = findViewById(R.id.btnAfegir);
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
                 // Code here executes on main thread after user presses button
                 EditText txtNom = findViewById(R.id.txtNom);
 
@@ -37,9 +37,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        final Button btnLlistar = findViewById(R.id.btnLlistar);
-        btnLlistar.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+        final Button btnList = findViewById(R.id.btnLlistar);
+        btnList.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
 
                 dbHelper.showContact(db);
 
