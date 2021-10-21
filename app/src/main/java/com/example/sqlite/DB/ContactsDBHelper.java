@@ -1,5 +1,6 @@
 package com.example.sqlite.DB;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -14,6 +15,7 @@ import com.example.sqlite.DB.ContactsContract.*;
 import com.example.sqlite.Model.Contact;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ContactsDBHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
@@ -50,23 +52,21 @@ public class ContactsDBHelper extends SQLiteOpenHelper {
         }
     }
 
+    @SuppressLint("Range")
     public void showContact(SQLiteDatabase db) {
-        ArrayList<String> contacts = new ArrayList();
 
-        if (db.isOpen()){
-            String sql = "select " + ContactsEntry.COLUMN_NAME_TITLE + " from " + ContactsEntry.TABLE_NAME;
-            Cursor cursor = db.rawQuery(sql, null);
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + ContactsEntry.TABLE_NAME;
 
-            if (cursor.moveToFirst()) {
-                do {
-                    Contact contact = new Contact();
-                    contact.setNom(cursor.getString(cursor.getColumnIndex("name")));
-                    contacts.add(contact);
-                } while (cursor.moveToNext());
-            }
+        db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        }else{
-            Log.i("sql","Database is closed");
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Log.i("sqlitelog", cursor.getString(cursor.getColumnIndex("name")));
+            } while (cursor.moveToNext());
         }
+
     }
 }
